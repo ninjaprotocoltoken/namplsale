@@ -4,8 +4,6 @@ pragma solidity >=0.4.24 <0.8.0;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-// import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "@openzeppelin/contracts/proxy/Initializable.sol";
 
 contract NamplCrowdSale is Ownable, Initializable {
@@ -38,15 +36,24 @@ contract NamplCrowdSale is Ownable, Initializable {
     }
 
     receive() payable external {
-
         // Prevent owner from buying tokens, but allow them to add pre-sale ETH to the contract for Uniswap liquidity
-        if (owner() != msg.sender) {
-            invest(msg.sender, msg.value);
-        }
+        _invest(msg.sender, msg.value);
     }
 
-    function invest(address beneficiary, uint256 weiAmount) internal {
-        // _validatePurchase(beneficiary, weiAmount);
+    function _invest(address beneficiary, uint256 weiAmount) internal
+        _whenTransferAllowed(beneficiary, weiAmount) {
+        
+        // Update internal state
+        weiRaised = weiRaised.add(weiAmount);
+
+        investors.push(beneficiary);
+        
+        emit EVENT_INVEST(beneficiary, weiAmount);
+    }
+
+    modifier _whenTransferAllowed(address beneficiary, uint256 weiAmount){
+        require(owner() != msg.sender, "NCS: owner is not allowed");
+
         require(beneficiary != address(0), "NCS: beneficiary is the zero address.");
 
         require(isOpen(), "NCS: sale did not start yet.");
@@ -55,14 +62,9 @@ contract NamplCrowdSale is Ownable, Initializable {
 
         require(isInWhiteList(beneficiary), "NCS: only address in whitelist can purchase.");
 
-        require(weiAmount == INVEST_AMOUNT, "NCS: weiAmount must equal 0.1 ether.");
+        require(weiAmount == INVEST_AMOUNT, "NCS: invalid  must equal 0.1 ether.");
 
-        // Update internal state
-        weiRaised = weiRaised.add(weiAmount);
-
-        investors.push(beneficiary);
-        
-        emit EVENT_INVEST(beneficiary, weiAmount);
+        _;
     }
 
     function isInWhiteList(address beneficiary) public view returns (bool) {
@@ -96,6 +98,10 @@ contract NamplCrowdSale is Ownable, Initializable {
 
     function getInvestors() public view returns (address[] memory){
         return investors;
+    }
+
+    function getFounderWallet() public view onlyOwner returns (address) {
+        return founderWallet;
     }
 }
 

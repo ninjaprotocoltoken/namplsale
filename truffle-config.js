@@ -29,7 +29,7 @@ module.exports = {
       network_id: 5,
       gas: 5500000,
       confirmations: 2,
-      timeoutBlocks: 200,
+      timeoutBlocks: 500,
       skipDryRun: true
     },  
     mainnet: {
