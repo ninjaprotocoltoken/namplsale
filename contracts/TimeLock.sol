@@ -10,12 +10,12 @@ contract TimeLock is Ownable {
     //private record of deployment date
     uint256 currentDate;
     
-    uint256 public UNLOCK_TIMESTAMP = 1609054200000;//2020-12-27 15:30:00 // 2025-1-1 
+    uint256 public UNLOCK_TIMESTAMP = 1735660800;// 2025-1-1 
     //address to send tokens back to 
-    address public receiver = 0x5900D2136Bb526D70205b6f00D27F02Ec156C96E; 
+    address public receiver = 0x7570B6D338B1C3B17Cce1459343e9F91Cc8207c0; 
     
     
-    function withDraw(IERC20 token) external onlyOwner() {
+    function withdraw(IERC20 token) external onlyOwner() {
 
         require(block.timestamp >= UNLOCK_TIMESTAMP, "Operation not allowed in current state: locked.");
 

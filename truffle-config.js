@@ -22,7 +22,8 @@ module.exports = {
       gas: 5500000,        // Ropsten has a lower block limit than mainnet
       confirmations: 2,    // # of confs to wait between deployments. (default: 0)
       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
-      skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
+      skipDryRun: true,     // Skip dry run before migrations? (default: false for public nets )
+      networkCheckTimeout: 20000
     },
     goerli: {
       provider: () => new HDWalletProvider(mnemonic, `https://goerli.infura.io/v3/39943029b116455f9250ee54da86df71` ),
@@ -30,7 +31,8 @@ module.exports = {
       gas: 5500000,
       confirmations: 2,
       timeoutBlocks: 500,
-      skipDryRun: true
+      skipDryRun: true,
+      networkCheckTimeout: 20000
     },  
     mainnet: {
       provider: () => new HDWalletProvider(mnemonic, `https://mainnet.infura.io/v3/39943029b116455f9250ee54da86df71`),
