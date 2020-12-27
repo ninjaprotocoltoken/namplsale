@@ -1,6 +1,6 @@
 const NamplCrowdSale = artifacts.require("NamplCrowdSale");
-const Wallet = require("@truffle/hdwallet-provider");
-const Web3 =  require("web3");
+const TimeLock = artifacts.require("TimeLock");
+
 const FS = require("fs");
 const DEPLOY_CONFIG_FILE = process.env.DEPLOY_CONFIG;
 
@@ -27,8 +27,10 @@ module.exports = function (deployer) {
     await sale.initialize(founderWallet);
 
     founderWallet = await sale.getFounderWallet();
-    
+
     console.log("founder wallet of contract:"+founderWallet);
+
+    await deployer.deploy(TimeLock);
 
   })
 };
