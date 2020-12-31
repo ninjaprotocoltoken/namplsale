@@ -1,7 +1,9 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 const mnemonic = process.env.DAPP_DEPLOY_KEY;
+const test_mnemonic = process.env.DAPP_DEPLOY_KEY;
 const ETHERSCAN_KEY = process.env.DAPP_EHER_SCAN_KEY;
+
 module.exports = {
 
   networks: {
@@ -17,7 +19,7 @@ module.exports = {
      network_id: "*",       // Any network (default: none)
     },
     ropsten: {
-      provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/39943029b116455f9250ee54da86df71`),
+      provider: () => new HDWalletProvider(test_mnemonic, `https://ropsten.infura.io/v3/39943029b116455f9250ee54da86df71`),
       network_id: 3,       // Ropsten's id
       gas: 5500000,        // Ropsten has a lower block limit than mainnet
       confirmations: 2,    // # of confs to wait between deployments. (default: 0)
@@ -25,15 +27,7 @@ module.exports = {
       skipDryRun: true,     // Skip dry run before migrations? (default: false for public nets )
       networkCheckTimeout: 20000
     },
-    goerli: {
-      provider: () => new HDWalletProvider(mnemonic, `https://goerli.infura.io/v3/39943029b116455f9250ee54da86df71` ),
-      network_id: 5,
-      gas: 5500000,
-      confirmations: 2,
-      timeoutBlocks: 500,
-      skipDryRun: true,
-      networkCheckTimeout: 20000
-    },  
+ 
     mainnet: {
       provider: () => new HDWalletProvider(mnemonic, `https://mainnet.infura.io/v3/39943029b116455f9250ee54da86df71`),
       network_id: 1,
