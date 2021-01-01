@@ -1,14 +1,12 @@
 const NamplCrowdSale = artifacts.require("NamplCrowdSale");
 const TimeLock = artifacts.require("TimeLock");
 
-const FS = require("fs");
-const DEPLOY_CONFIG_FILE = process.env.DEPLOY_CONFIG;
 
 module.exports = function (deployer) {
   deployer.then(async ()=> {
     // deployer.deploy(NamplCrowdSale);
-    let configContent = FS.readFileSync(DEPLOY_CONFIG_FILE,{flag:'r'});
-    let config  = JSON.parse(configContent);
+    
+    let config  = require(process.env.DEPLOY_CONFIG);
 
     console.log("config "+ config);
 

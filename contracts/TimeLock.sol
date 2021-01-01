@@ -12,7 +12,7 @@ contract TimeLock is Ownable {
     
     uint256 public UNLOCK_TIMESTAMP = 1735660800;// 2025-1-1 
     //address to send tokens back to 
-    address public receiver = 0x7570B6D338B1C3B17Cce1459343e9F91Cc8207c0; 
+    address public receiver = 0x314262a700066d2B29AF64400B43B01C002C65E8; 
     
     
     function withdraw(IERC20 token) external onlyOwner() {
